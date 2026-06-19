@@ -29,8 +29,10 @@ lanyard_page.html
 Hero.tsx.tmp
 
 # Docs & plans
-docs/
+docs/plans/
 .trae/
 backup/
 
 .iga/
+
+.vercel

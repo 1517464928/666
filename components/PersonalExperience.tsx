@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useRef, useState, useCallback } from "react";
 import { motion } from "framer-motion";
@@ -95,11 +95,11 @@ function getGradient(progress: number): string {
   return `#faf7f4`;
 }
 
-export default function PersonalExperience() {
+export default function PersonalExperience({ initialData }: { initialData?: Record<string, unknown> | null }) {
   const { isEditing, registerSave, unregisterSave, setHasUnsavedChanges } = useEditMode();
-  const [items, setItems] = useState<ExperienceData[]>([]);
-  const [advantages, setAdvantages] = useState<AdvantageData[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [items, setItems] = useState<ExperienceData[]>(initialData?.experiences as ExperienceData[] || []);
+  const [advantages, setAdvantages] = useState<AdvantageData[]>(initialData?.advantages as AdvantageData[] || []);
+  const [loading, setLoading] = useState(!initialData);
   const [activeIndex, setActiveIndex] = useState(0);
   const [reducedMotion, setReducedMotion] = useState(false);
   const [advantagePage, setAdvantagePage] = useState(0);
@@ -128,6 +128,10 @@ export default function PersonalExperience() {
 
   useEffect(() => {
     setReducedMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+    if (initialData) {
+      setLoading(false);
+      return;
+    }
     fetch("/api/public")
       .then((r) => r.json())
       .then((d) => {
@@ -137,7 +141,7 @@ export default function PersonalExperience() {
         didInitialLoad.current = false;
       })
       .catch(() => setLoading(false));
-  }, []);
+  }, [initialData]);
 
   const screens = [
     { type: "intro" as const },
