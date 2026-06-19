@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useRef, useState, useCallback } from "react";
 import { motion } from "framer-motion";
@@ -450,7 +450,7 @@ function IntroScreen({
         onClick={onExplore}
         className="mt-10 inline-flex items-center gap-2 px-8 py-4 bg-[#f97316] text-white rounded-full text-lg font-medium hover:bg-[#ea580c] transition-colors cursor-pointer"
       >
-        开始探索 <ChevronDown size={20} />
+        GO <ChevronDown size={20} />
       </motion.button>
 
       <motion.div
@@ -514,7 +514,7 @@ function ProjectsScreen({
           onClick={handleExplore}
           className="inline-flex items-center gap-2 px-8 py-4 bg-[#f97316] text-white rounded-full text-lg font-medium hover:bg-[#ea580c] transition-colors cursor-pointer"
         >
-          开始探索 <ChevronDown size={20} />
+          GO <ChevronDown size={20} />
         </button>
       </motion.div>
     </div>
@@ -564,7 +564,7 @@ function ProjectsScreen2({
           onClick={handleExplore}
           className="inline-flex items-center gap-2 px-8 py-4 bg-[#f97316] text-white rounded-full text-lg font-medium hover:bg-[#ea580c] transition-colors cursor-pointer"
         >
-          开始探索 <ChevronDown size={20} />
+          GO <ChevronDown size={20} />
         </button>
       </motion.div>
     </div>
