@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, type PanInfo } from "framer-motion";
-import { Plus, Trash2, ChevronRight } from "lucide-react";
+import { Plus, Trash2, ChevronRight, ChevronDown } from "lucide-react";
 import { useEditMode } from "./EditMode";
 import { EditableText } from "./ui/InlineEdit";
 import { EditableBlock } from "./ui/EditableBlock";
@@ -117,6 +117,17 @@ export default function ExperiencePages({
     if (pageIndex > 0) {
       setDirection(-1);
       scrollToPage(pageIndex - 1);
+    }
+  };
+
+  const scrollToNextScreen = () => {
+    const currentPage = pageRefs.current[pageIndex];
+    const screen = currentPage?.closest("[data-index]") as HTMLElement;
+    if (screen?.nextElementSibling) {
+      (screen.nextElementSibling as HTMLElement).scrollIntoView({
+        behavior: reducedMotion ? "auto" : "smooth",
+        block: "start",
+      });
     }
   };
 
@@ -394,16 +405,16 @@ export default function ExperiencePages({
           </motion.div>
         </div>
 
-        {!isLast && !isEditing && (
+        {!isEditing && (
           <motion.button
             variants={detailV}
             initial="hidden"
             animate={show ? "visible" : "hidden"}
             custom={0.16}
-            onClick={nextPage}
+            onClick={isLast ? scrollToNextScreen : nextPage}
             className="mt-8 inline-flex items-center gap-2 px-8 py-4 bg-[#f97316] text-white rounded-full text-lg font-medium hover:bg-[#ea580c] transition-colors cursor-pointer"
           >
-            GO <ChevronRight size={20} />
+            GO {isLast ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
           </motion.button>
         )}
       </motion.div>
