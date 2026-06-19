@@ -21,6 +21,7 @@ import {
 import ExperiencePages from "./ExperiencePages";
 import PersonalAdvantages from "./PersonalAdvantages";
 import ProjectsSection from "./Projects";
+import AskMeContent from "./AskMe";
 
 const typeLabels: Record<string, string> = {
   education: "教育背景",
@@ -128,6 +129,7 @@ export default function PersonalExperience() {
     ...items.map((exp) => ({ type: "experience" as const, exp })),
     { type: "advantages" as const },
     { type: "cta" as const },
+    { type: "askme" as const },
   ];
 
   const progress = screens.length <= 1 ? 100 : (activeIndex / (screens.length - 1)) * 100;
@@ -322,6 +324,7 @@ export default function PersonalExperience() {
                 items={advantages}
                 isActive={activeIndex === i}
                 reducedMotion={reducedMotion}
+                downLocked={true}
                 onPageChange={(pageIndex, totalPages) => {
                   setAdvantagePage(pageIndex);
                   setAdvantageTotal(totalPages);
@@ -332,6 +335,9 @@ export default function PersonalExperience() {
               <div data-screen="cta" className="h-full w-full">
                 <ProjectsScreen isActive={activeIndex === i} reducedMotion={reducedMotion} />
               </div>
+            )}
+            {screen.type === "askme" && (
+              <AskMeScreen isActive={activeIndex === i} reducedMotion={reducedMotion} />
             )}
           </div>
         ))}
@@ -440,6 +446,24 @@ function ProjectsScreen({ isActive, reducedMotion }: { isActive: boolean; reduce
         <p className="text-lg text-[#1a1a1a]/60">看看我做了什么</p>
       </motion.div>
       <ProjectsSection />
+    </div>
+  );
+}
+
+function AskMeScreen({ isActive, reducedMotion }: { isActive: boolean; reducedMotion: boolean }) {
+  const variants = projectsVariants(reducedMotion);
+
+  return (
+    <div className="h-full w-full overflow-hidden">
+      <motion.div
+        variants={variants}
+        initial="hidden"
+        animate={isActive ? "visible" : "hidden"}
+        custom={0}
+        className="h-full"
+      >
+        <AskMeContent />
+      </motion.div>
     </div>
   );
 }
