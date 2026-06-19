@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
@@ -14,7 +14,7 @@ const SAVE_ID = "hero";
 
 export default function Hero() {
   const { isEditing, registerSave, unregisterSave, setHasUnsavedChanges } = useEditMode();
-  const { enableMusic } = useMusic();
+  const { enableMusic, audioRef } = useMusic();
   const [title, setTitle] = useState("张攀岳");
   const [btnText, setBtnText] = useState("了解更多");
   const [style, setStyle] = useState<Record<string, BlockStyle>>({});
@@ -132,7 +132,7 @@ export default function Hero() {
                 transition={{ duration: 0.6, delay: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
                 whileHover={{ scale: 1.05, boxShadow: "0 12px 24px rgba(249,115,22,0.3)" }}
                 whileTap={{ scale: 0.95 }}
-                onClick={enableMusic}
+                onClick={() => { enableMusic(); const a = audioRef.current; if (a) { a.currentTime = 0; a.muted = false; a.play().catch(() => {}); } }}
                 className="inline-flex items-center gap-2 px-8 py-4 bg-[#f97316] text-white rounded-full text-base font-medium hover:bg-[#ea580c] transition-colors duration-300 cursor-pointer shadow-lg"
               >
                 {btnText} <ArrowRight size={18} />

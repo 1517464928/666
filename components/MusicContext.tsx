@@ -1,16 +1,18 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useRef, useState, type ReactNode, type RefObject } from "react";
 
 interface MusicContextValue {
   enabled: boolean;
   enableMusic: () => void;
+  audioRef: RefObject<HTMLAudioElement | null>;
 }
 
 const MusicContext = createContext<MusicContextValue | null>(null);
 
 export function MusicProvider({ children }: { children: ReactNode }) {
   const [enabled, setEnabled] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     const saved = localStorage.getItem("bg-music-enabled");
@@ -25,7 +27,7 @@ export function MusicProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <MusicContext.Provider value={{ enabled, enableMusic }}>
+    <MusicContext.Provider value={{ enabled, enableMusic, audioRef }}>
       {children}
     </MusicContext.Provider>
   );

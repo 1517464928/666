@@ -1,13 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { VolumeX } from "lucide-react";
 import { motion } from "framer-motion";
 import { useMusic } from "./MusicContext";
 
 export default function BackgroundMusic() {
-  const { enabled, enableMusic } = useMusic();
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const { enabled, enableMusic, audioRef } = useMusic();
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -33,8 +32,9 @@ export default function BackgroundMusic() {
       audio.removeEventListener("play", handlePlay);
       audio.removeEventListener("pause", handlePause);
       audio.pause();
+      audioRef.current = null;
     };
-  }, []);
+  }, [audioRef]);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -45,7 +45,7 @@ export default function BackgroundMusic() {
     } else {
       audio.pause();
     }
-  }, [enabled, isMuted]);
+  }, [enabled, isMuted, audioRef]);
 
   const toggle = () => {
     const audio = audioRef.current;
