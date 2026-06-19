@@ -27,7 +27,13 @@ export default function ProjectsSection({
     fetch(`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/data.json`)
       .then((r) => r.json())
       .then((d) => {
-        setItems(d.projects || []);
+        const base = process.env.NEXT_PUBLIC_BASE_PATH || '';
+        const items = (d.projects || []).map((p: ProjectData) => ({
+          ...p,
+          videoUrl: p.videoUrl ? `${base}${p.videoUrl}` : p.videoUrl,
+          imageUrl: p.imageUrl ? `${base}${p.imageUrl}` : p.imageUrl,
+        }));
+        setItems(items);
         setLoading(false);
       })
       .catch(() => setLoading(false));
